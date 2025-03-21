@@ -19,6 +19,10 @@ class CryptoCurrency {
             std::cout << "Name: " << name << " ,Amount held: " 
                       << amount << " ,Unit price: " << unitPrice << std::endl;
         }
+
+        float totalPrice() {
+            return (this->amount * this->unitPrice);
+        }
         
 };
 
@@ -32,10 +36,21 @@ class Wallet {
         : balance(balance), cryptoAssets(cryptoAssets), coins(coins) {}
 
         void displayWallet() {
-            std::cout << "\nAvailable Balance: " << balance << std::endl;
+            //std::cout << "\nAvailable Balance: " << balance << std::endl;
             for(int i=0; i<cryptoAssets; i++){
                 coins[i].display();
             }
+        }
+
+        void updateBalance() {
+            for(int i=0; i<cryptoAssets; i++){
+                float totalAmount = coins[i].totalPrice();
+                this->balance += totalAmount;
+            }
+        }
+
+        void displayBalance() {
+            std::cout << "\nAvailable Balance: " << balance << std::endl;
         }
 
 
@@ -73,13 +88,14 @@ int main() {
     }
 
     Wallet wallet(temp_balance, temp_cryptoAssets, coins);
+    wallet.updateBalance();
 
     int option;
     
     do {
         std::cout << "\nSelect an Option:\n";
         std::cout << "1. Wallet info\n";
-        std::cout << "2. -\n";
+        std::cout << "2. Show Balance\n";
         std::cout << "3. -\n";
         std::cout << "4. -\n";
         std::cout << "0. Exit\n";
@@ -89,6 +105,10 @@ int main() {
         switch(option){
             case 1:
                 wallet.displayWallet();
+                break;
+
+            case 2:
+                wallet.displayBalance();
                 break;
 
             case 0:
